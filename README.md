@@ -1,8 +1,8 @@
 # Disclamer
 JOAL is not designed to help or encourage you downloading illegal materials ! You must respect the law applicable in your country. I couldn't be held responsible for illegal activities performed by your usage of JOAL.
 
-## Official Docker Hub page:
-https://hub.docker.com/r/anthonyraymond/joal
+## Official Docker Image:
+Images are hosted on GitHub Container Registry: https://github.com/caprisun22/joal/pkgs/container/joal
 
 # JOAL
 This is the server application (with an **optional** webui), if you are interested in the desktop app look at [here](https://github.com/anthonyraymond/joal-desktop).
@@ -60,7 +60,7 @@ docker run -d \
     -p PORT:PORT \
     -v PATH_TO_CONF:/data \
     --name="joal" \
-    anthonyraymond/joal:X.X.X \
+    ghcr.io/caprisun22/joal:X.X.X \
     --joal-conf="/data" \
     --spring.main.web-environment=true \
     --server.port="PORT" \
@@ -72,7 +72,7 @@ Or the equivalent docker-compose service.
 version: "2"
 services:
   joal:
-    image: anthonyraymond/joal:X.X.X
+    image: ghcr.io/caprisun22/joal:X.X.X
     container_name: joal
     restart: unless-stopped
     volumes:
@@ -82,7 +82,7 @@ services:
     command: ["--joal-conf=/data", "--spring.main.web-environment=true", "--server.port=PORT", "--joal.ui.path.prefix=SECRET_OBFUSCATION_PATH", "--joal.ui.secret-token=SECRET_TOKEN"]
 ```
 
-Replace the `X.X.X` in `anthonyraymond/joal:X.X.X` with the desired version of joal (all versions are available [here](https://hub.docker.com/r/anthonyraymond/joal/tags)).
+Replace the `X.X.X` in `ghcr.io/caprisun22/joal:X.X.X` with the desired version of joal (all versions are available [here](https://github.com/caprisun22/joal/pkgs/container/joal/versions)).
 
 
 ## 3. Start seeding
@@ -126,7 +126,7 @@ docker run -d \
     -v PATH_TO_CONF:/data \
     -e "JAVA_TOOL_OPTIONS=-Dhttp.proxyHost=10.10.10.10 -Dhttp.proxyPort=8888 -Dhttp.nonProxyHosts=localhost|127.*" \
     --name="joal" \
-    anthonyraymond/joal:X.X.X \
+    ghcr.io/caprisun22/joal:X.X.X \
     --joal-conf="/data" \
     --spring.main.web-environment=true \
     --server.port="PORT" \
@@ -139,7 +139,7 @@ docker run -d \
 version: "2"
 services:
   joal:
-    image: anthonyraymond/joal:X.X.X
+    image: ghcr.io/caprisun22/joal:X.X.X
     container_name: joal
     restart: unless-stopped
     environment:
