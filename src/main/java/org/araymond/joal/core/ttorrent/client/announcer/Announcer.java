@@ -41,6 +41,10 @@ public class Announcer implements AnnouncerFacade {
     private final long maxSeedingTimeMinutes;
     private final LocalDateTime seedingStartTime;
 
+    Announcer(final MockedTorrent torrent, final AnnounceDataAccessor announceDataAccessor, final HttpClient httpClient, final float uploadRatioTarget) {
+        this(torrent, announceDataAccessor, httpClient, uploadRatioTarget, -1L);
+    }
+
     Announcer(final MockedTorrent torrent, final AnnounceDataAccessor announceDataAccessor, final HttpClient httpClient, final float uploadRatioTarget, final long maxSeedingTimeMinutes) {
         this.torrent = torrent;
         this.trackerClient = this.buildTrackerClient(torrent, httpClient);

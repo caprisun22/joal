@@ -23,6 +23,17 @@ public class AppConfiguration {
     private final float uploadRatioTarget;
     private final long maxSeedingTimeMinutes;
 
+    public AppConfiguration(
+            final long minUploadRate,
+            final long maxUploadRate,
+            final int simultaneousSeed,
+            final String client,
+            final boolean keepTorrentWithZeroLeechers,
+            final float uploadRatioTarget
+    ) {
+        this(minUploadRate, maxUploadRate, simultaneousSeed, client, keepTorrentWithZeroLeechers, uploadRatioTarget, null);
+    }
+
     @JsonCreator
     public AppConfiguration(
             @JsonProperty(value = "minUploadRate", required = true) final long minUploadRate,
