@@ -132,6 +132,10 @@ public class SeedManager {
             this.client.stop();
             this.client = null;
         }
+        try {
+            this.httpClient.close();
+        } catch (final IOException ignored) {
+        }
     }
 
     public void startSeeding() throws IOException {

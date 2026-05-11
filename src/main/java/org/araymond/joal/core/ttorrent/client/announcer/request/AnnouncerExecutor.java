@@ -21,6 +21,7 @@ public class AnnouncerExecutor {
     private final AnnounceResponseCallback announceResponseCallback;
     private final ThreadPoolExecutor executorService;
     private final Map<InfoHash, AnnouncerWithFuture> currentlyRunning;
+    private volatile boolean isShutdown = false;
 
     public AnnouncerExecutor(final AnnounceResponseCallback announceResponseCallback) {
         this.announceResponseCallback = announceResponseCallback;
@@ -72,6 +73,10 @@ public class AnnouncerExecutor {
     }
 
     public void awaitForRunningTasks() {
+        if (this.isShutdown) {
+            return;
+        }
+        this.isShutdown = true;
         this.executorService.shutdown();
         try {
             if (!this.executorService.awaitTermination(10, TimeUnit.SECONDS)) {

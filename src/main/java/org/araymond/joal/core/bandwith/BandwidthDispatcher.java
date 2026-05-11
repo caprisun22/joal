@@ -75,10 +75,12 @@ public class BandwidthDispatcher implements BandwidthDispatcherFacade, Runnable 
 
     public void stop() {
         this.stop = true;
-        this.thread.interrupt();
-        try {
-            this.thread.join();
-        } catch (final InterruptedException ignored) {
+        if (this.thread != null) {
+            this.thread.interrupt();
+            try {
+                this.thread.join();
+            } catch (final InterruptedException ignored) {
+            }
         }
     }
 
