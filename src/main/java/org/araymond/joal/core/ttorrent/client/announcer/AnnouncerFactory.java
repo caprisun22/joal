@@ -13,6 +13,6 @@ public class AnnouncerFactory {
     private final AppConfiguration appConfiguration;
 
     public Announcer create(final MockedTorrent torrent) {
-        return new Announcer(torrent, this.announceDataAccessor, httpClient, appConfiguration.getUploadRatioTarget());
+        return new Announcer(torrent, this.announceDataAccessor, httpClient, appConfiguration.getUploadRatioTarget(), appConfiguration.getMaxSeedingTimeMinutes());
     }
 }

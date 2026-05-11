@@ -21,6 +21,7 @@ public class AppConfiguration {
     private final String client;
     private final boolean keepTorrentWithZeroLeechers;
     private final float uploadRatioTarget;
+    private final long maxSeedingTimeMinutes;
 
     @JsonCreator
     public AppConfiguration(
@@ -29,7 +30,8 @@ public class AppConfiguration {
             @JsonProperty(value = "simultaneousSeed", required = true) final int simultaneousSeed,
             @JsonProperty(value = "client", required = true) final String client,
             @JsonProperty(value = "keepTorrentWithZeroLeechers", required = true) final boolean keepTorrentWithZeroLeechers,
-            @JsonProperty(value = "uploadRatioTarget", required = false) final Float uploadRatioTarget
+            @JsonProperty(value = "uploadRatioTarget", required = false) final Float uploadRatioTarget,
+            @JsonProperty(value = "maxSeedingTimeMinutes", required = false) final Long maxSeedingTimeMinutes
     ) {
         this.minUploadRate = minUploadRate;
         this.maxUploadRate = maxUploadRate;
@@ -37,6 +39,7 @@ public class AppConfiguration {
         this.client = client;
         this.keepTorrentWithZeroLeechers = keepTorrentWithZeroLeechers;
         this.uploadRatioTarget = uploadRatioTarget == null ? -1.0f : uploadRatioTarget;
+        this.maxSeedingTimeMinutes = maxSeedingTimeMinutes == null ? -1L : maxSeedingTimeMinutes;
 
         validate();
     }
@@ -62,6 +65,10 @@ public class AppConfiguration {
 
         if (uploadRatioTarget < 0f && uploadRatioTarget != -1f){
             throw new AppConfigurationIntegrityException("uploadRatioTarget must be greater than 0 (or equal to -1)");
+        }
+
+        if (maxSeedingTimeMinutes < 0L && maxSeedingTimeMinutes != -1L) {
+            throw new AppConfigurationIntegrityException("maxSeedingTimeMinutes must be greater than 0 (or equal to -1)");
         }
     }
 }

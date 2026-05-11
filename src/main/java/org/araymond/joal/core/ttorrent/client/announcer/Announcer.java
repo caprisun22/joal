@@ -18,6 +18,7 @@ import org.araymond.joal.core.ttorrent.client.announcer.tracker.TrackerResponseH
 
 import java.net.URI;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -37,12 +38,16 @@ public class Announcer implements AnnouncerFacade {
     private final AnnounceDataAccessor announceDataAccessor;
     private long reportedUploadBytes = 0L;
     private final float uploadRatioTarget;
+    private final long maxSeedingTimeMinutes;
+    private final LocalDateTime seedingStartTime;
 
-    Announcer(final MockedTorrent torrent, final AnnounceDataAccessor announceDataAccessor, final HttpClient httpClient, final float uploadRatioTarget) {
+    Announcer(final MockedTorrent torrent, final AnnounceDataAccessor announceDataAccessor, final HttpClient httpClient, final float uploadRatioTarget, final long maxSeedingTimeMinutes) {
         this.torrent = torrent;
         this.trackerClient = this.buildTrackerClient(torrent, httpClient);
         this.announceDataAccessor = announceDataAccessor;
         this.uploadRatioTarget = uploadRatioTarget;
+        this.maxSeedingTimeMinutes = maxSeedingTimeMinutes;
+        this.seedingStartTime = LocalDateTime.now();
     }
 
     private TrackerClient buildTrackerClient(final MockedTorrent torrent, HttpClient httpClient) {
@@ -126,6 +131,14 @@ public class Announcer implements AnnouncerFacade {
         }
         final float bytesToUploadTarget = (uploadRatioTarget * (float) this.getTorrentSize());
         return reportedUploadBytes >= bytesToUploadTarget;
+    }
+
+    public boolean hasReachedMaxSeedingTime() {
+        if (maxSeedingTimeMinutes == -1L) {
+            return false;
+        }
+        final long elapsedMinutes = ChronoUnit.MINUTES.between(seedingStartTime, LocalDateTime.now());
+        return elapsedMinutes >= maxSeedingTimeMinutes;
     }
 
     /**

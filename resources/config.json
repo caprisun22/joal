@@ -4,5 +4,6 @@
   "simultaneousSeed": 200,
   "client": "utorrent-3.5.0_43916.client",
   "keepTorrentWithZeroLeechers": true,
-  "uploadRatioTarget": -1.0
+  "uploadRatioTarget": -1.0,
+  "maxSeedingTimeMinutes": -1
 }

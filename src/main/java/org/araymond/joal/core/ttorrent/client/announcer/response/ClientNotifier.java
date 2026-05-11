@@ -38,6 +38,10 @@ public class ClientNotifier implements AnnounceResponseHandler {
         }
         if (announcer.hasReachedUploadRatioLimit()) {
             this.client.onUploadRatioLimitReached(announcer.getTorrentInfoHash());
+            return;
+        }
+        if (announcer.hasReachedMaxSeedingTime()) {
+            this.client.onUploadRatioLimitReached(announcer.getTorrentInfoHash());
         }
     }
 
